@@ -26,6 +26,7 @@ class WiFiManager extends ResourceController {
     for (i = 0; i <= 1; i++) {
       ready = true;
     }
+    await admon.close();
     return Response.ok({"OK": ready});
   }
 
@@ -50,6 +51,7 @@ class WiFiManager extends ResourceController {
       ctrl = (await collect?.findOne(where.eq("control.ssid", body["control"].toString())))!;
     }
     catch(e){
+      await admon.close();
       return Response.ok({"ERROR": e.toString()});
     }
 
@@ -81,6 +83,7 @@ class WiFiManager extends ResourceController {
       };
     }
 
+    await admon.close();
     return Response.ok({
       "frontal": frontal,
       "lateral": lateral,
@@ -132,6 +135,8 @@ class WiFiManager extends ResourceController {
         print("");
       }
     }
+
+    await admon.close();
     return Response.ok({
       "control": respControl,
       "frontal": respFrontal,
@@ -167,6 +172,7 @@ class WiFiManager extends ResourceController {
       }
     } 
     catch(e) {
+      await admon.close();
       return Response.ok({"ERROR": e.toString()});
     }
 
@@ -178,6 +184,7 @@ class WiFiManager extends ResourceController {
           status = "OK";
       }
       catch(e){
+        await admon.close();
         return Response.ok({"ERROR": e.toString()});
       }
     } 
@@ -189,10 +196,12 @@ class WiFiManager extends ResourceController {
             status = "OK";
         }
         catch (e){
+          await admon.close();
           return Response.ok({"ERROR": e.toString()});
         }
       }
     }
+    await admon.close();
     return Response.ok({"status": status});
   }
 
@@ -213,8 +222,10 @@ class WiFiManager extends ResourceController {
       }
     } 
     catch (e) {
+      await admon.close();
       return Response.ok({"ERROR": e.toString()});
     }
+    await admon.close();
     return Response.ok({"status": found});
   }
 }

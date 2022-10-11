@@ -62,7 +62,8 @@ class DesingManager extends ResourceController{
             status = "Nueva version establecida";
         }
       }
-    }    
+    }
+    await admon.close();
     return Response.ok({"response": status});
   }
 
@@ -138,9 +139,11 @@ class DesingManager extends ResourceController{
       }
     }
     catch(e){
+      await admon.close();
       return Response.ok({"ERROR": e.toString()});
     }
     
+    await admon.close();
     return Response.ok({
         "frontal": frontal,
         "lateral": lateral,
@@ -163,8 +166,10 @@ class DesingManager extends ResourceController{
       }
     }
     catch(e){
+      await admon.close();
       return Response.ok({"ERROR": e.toString()});
     }
+    await admon.close();
     return Response.ok({"version": version});
   }
 

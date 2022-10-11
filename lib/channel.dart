@@ -1,5 +1,4 @@
 import 'package:heroes/exportData.dart';
-
 import 'controllers/designManger.dart';
 import 'controllers/networkManager.dart';
 import 'controllers/wifiManager.dart';
@@ -9,34 +8,16 @@ import 'controllers/wifiManager.dart';
 /// Override methods in this class to set up routes and initialize services like
 /// database connections. See http://conduit.io/docs/http/channel/.
 class HeroesChannel extends ApplicationChannel {
-  /// Initialize services in this method.
-  ///
-  /// Implement this method to initialize services, read values from [options]
-  /// and any other initialization required before constructing [entryPoint].
-  ///
-  /// This method is invoked prior to [entryPoint] being accessed.
+
   @override
   Future prepare() async {
     logger.onRecord.listen(
         (rec) => print("$rec ${rec.error ?? ""} ${rec.stackTrace ?? ""}"));
   }
 
-  /// Construct the request channel.
-  ///
-  /// Return an instance of some [Controller] that will be the initial receiver
-  /// of all [Request]s.
-  ///
-  /// This method is invoked after [prepare].
   @override
   Controller get entryPoint {
     final router = Router();
-
-    // Prefer to use `link` instead of `linkFunction`.
-    // See: https://conduit.io/docs/http/request_controller/
-    // router.route("/example").linkFunction((request) async {
-    //   return Response.ok({"key": "value"});
-    // });
-
 
     router.route("/status").link(() => WiFiManager());
 
@@ -63,8 +44,6 @@ class HeroesChannel extends ApplicationChannel {
 
     //consulta los SSID del frontal, lateral, posterior y el nombre del bus asociado
     router.route("/getNetworks/:ssid").link(() => NetworkManager());
-
-
 
     return router;
   }

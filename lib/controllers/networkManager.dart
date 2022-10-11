@@ -26,13 +26,16 @@ class NetworkManager extends ResourceController {
         info = (await collect?.findOne(where.eq('control.ssid', ssid).fields(['frontal', 'lateral', 'posterior', 'bus'])))!;
       }
       catch(e){
+        await admon.close();
         return Response.ok({"ERROR": e.toString()});
       }
     }
     else{
+      await admon.close();
       return Response.ok({"WARNING": "Bridge SSID is missing, please enter this information in the URL to query"});
     }
 
+    await admon.close();
     return Response.ok({
       "bus": info["bus"],
       "frontal": info["frontal"]["ssid"],
