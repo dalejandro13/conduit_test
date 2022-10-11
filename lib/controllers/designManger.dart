@@ -39,6 +39,7 @@ class DesingManager extends ResourceController{
       }
     }
     catch(e){
+      await admon.close();
       return Response.ok({"ERROR": e.toString()});
     }
     
